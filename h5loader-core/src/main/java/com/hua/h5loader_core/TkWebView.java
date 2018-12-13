@@ -1,7 +1,6 @@
 package com.hua.h5loader_core;
 
-import android.content.Context;
-import android.util.AttributeSet;
+import android.view.View;
 
 import com.android.thinkive.framework.view.MyWebView;
 
@@ -10,21 +9,25 @@ import com.android.thinkive.framework.view.MyWebView;
  * @version 1.0
  * @date 2018/12/12
  */
-public class TkWebView extends MyWebView implements IWebkit {
-    public TkWebView(Context context) {
-        super(context);
-    }
+public class TkWebView implements IWebView {
+    private MyWebView myWebView;
 
-    public TkWebView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public TkWebView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+    public TkWebView(MyWebView myWebView) {
+        this.myWebView = myWebView;
     }
 
     @Override
-    public Object getWebkit() {
-        return this;
+    public void loadUrl(String url) {
+        myWebView.loadUrl(url);
+    }
+
+    @Override
+    public View getWebView() {
+        return myWebView;
+    }
+
+    @Override
+    public void release() {
+
     }
 }
