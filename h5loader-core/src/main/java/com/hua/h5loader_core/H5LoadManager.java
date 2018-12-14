@@ -56,7 +56,7 @@ public class H5LoadManager {
     void load(Context context, BaseBuilder builder) {
         IWebPageType webContainer = webPageTypes.get(builder.getClass());
         if (webContainer != null) {
-            webContainer.load(context, builder.build());
+            webContainer.load(context, builder.createParam());
         }
     }
 

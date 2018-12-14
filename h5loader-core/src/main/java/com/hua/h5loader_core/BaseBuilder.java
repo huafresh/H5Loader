@@ -8,10 +8,10 @@ import android.content.Context;
  * @date 2018/12/14 10:36
  */
 
-public abstract class BaseBuilder<T> {
+public abstract class BaseBuilder {
     public final void load(Context context) {
         H5LoadManager.get().load(context, this);
     }
 
-    public abstract Object build();
+    public abstract Object createParam();
 }

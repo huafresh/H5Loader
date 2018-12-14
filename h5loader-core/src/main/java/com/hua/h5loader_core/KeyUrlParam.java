@@ -8,34 +8,31 @@ import android.text.TextUtils;
  * @date 2018/12/13 13:49
  */
 
-public class KeyUrlParam {
+public class KeyUrlParam extends BaseParam{
     public String url;
     public String key;
 
-    KeyUrlParam(Builder builder) {
-        this.url = builder.url;
-        this.key = builder.key;
+    public static Builder newBuilder(){
+        return new Builder();
     }
 
-    public static Builder newKeyUrlParam() {
-        return new Builder();
+    @Override
+    public void fill(BaseBuilder builder) {
+        if (builder instanceof Builder) {
+            this.key = ((Builder)builder).key;
+            this.url = ((Builder)builder).url;
+        }
     }
 
     public static class Builder extends BaseBuilder {
         private String url;
         private String key;
-        private int backgroundColor;
-        private int iconBack;
-        private String title;
-        private int titleColor;
-        private int titleSize;
-
-        Builder() {
-        }
 
         @Override
-        public Object build() {
-            return new KeyUrlParam(this);
+        public Object createParam() {
+            KeyUrlParam keyUrlParam = new KeyUrlParam();
+            keyUrlParam.fill(this);
+            return keyUrlParam;
         }
 
         public Builder url(String url) {
@@ -48,29 +45,5 @@ public class KeyUrlParam {
             return this;
         }
 
-        public Builder backgroundColor(int backgroundColor) {
-            this.backgroundColor = backgroundColor;
-            return this;
-        }
-
-        public Builder iconBack(int iconBack) {
-            this.iconBack = iconBack;
-            return this;
-        }
-
-        public Builder title(String title) {
-            this.title = title;
-            return this;
-        }
-
-        public Builder titleColor(int titleColor) {
-            this.titleColor = titleColor;
-            return this;
-        }
-
-        public Builder titleSize(int titleSize) {
-            this.titleSize = titleSize;
-            return this;
-        }
     }
 }

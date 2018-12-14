@@ -110,7 +110,7 @@ public class CommWebFragment extends Fragment {
 
         @Override
         public KeyUrlParam.Builder newParamBuilder() {
-            return KeyUrlParam.newKeyParamBuilder();
+            return KeyUrlParam.newBuilder();
         }
 
         @Override

@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import java.util.HashMap;
+
 /**
  * @author hua
  * @version V1.0
@@ -30,22 +32,15 @@ public class BarWebFragment extends CommWebFragment {
     private int titleColor;
     private int titleSize;
 
-    public static BarWebFragment newInstance(
-            String key,
-            String url,
-            int backgroundColor,
-            @DrawableRes int iconBack,
-            String title,
-            int titleColor,
-            int titleSize                ) {
+    public static BarWebFragment newInstance(BarParam param) {
         Bundle args = new Bundle();
-        args.putString(BUNDLE_KEY, key);
-        args.putString(BUNDLE_URL, url);
-        args.putInt(KEY_BAC_COLOR, backgroundColor);
-        args.putInt(KEY_ICON_ID, iconBack);
-        args.putString(KEY_TITLE, title);
-        args.putInt(KEY_TITLE_COLOR, titleColor);
-        args.putInt(KEY_TITLE_SIZE, titleSize);
+        args.putString(BUNDLE_KEY, param.key);
+        args.putString(BUNDLE_URL, param.url);
+        args.putInt(KEY_BAC_COLOR, param.backgroundColor);
+        args.putInt(KEY_ICON_ID, param.iconBack);
+        args.putString(KEY_TITLE, param.title);
+        args.putInt(KEY_TITLE_COLOR, param.titleColor);
+        args.putInt(KEY_TITLE_SIZE, param.titleSize);
         BarWebFragment fragment = new BarWebFragment();
         fragment.setArguments(args);
         return fragment;
@@ -78,5 +73,23 @@ public class BarWebFragment extends CommWebFragment {
         toolbar.setTitle(title);
         toolbar.setTitleTextColor(titleColor);
         return contentView;
+    }
+
+    static void addWebPageType(HashMap<Class, IWebPageType> output) {
+        CommWebPageType webContainer = new CommWebPageType();
+        output.put(webContainer.newParamBuilder().getClass(), webContainer);
+    }
+
+    static class BarWebPageType implements IWebPageType<BarParam.Builder, BarParam> {
+
+        @Override
+        public BarParam.Builder newParamBuilder() {
+            return BarParam.newBuilder();
+        }
+
+        @Override
+        public void load(Context context, BarParam param) {
+            CommWebActivity.start(context, BarWebFragment.newInstance(param));
+        }
     }
 }

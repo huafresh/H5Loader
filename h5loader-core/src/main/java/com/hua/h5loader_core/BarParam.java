@@ -8,7 +8,7 @@ import android.support.annotation.DrawableRes;
  * @date 2018/12/14 14:52
  */
 
-public class BarParam extends KeyUrlParam{
+public class BarParam extends KeyUrlParam {
     public int backgroundColor;
     @DrawableRes
     public int iconBack;
@@ -16,32 +16,34 @@ public class BarParam extends KeyUrlParam{
     public int titleColor;
     public int titleSize;
 
-    private BarParam(Builder builder) {
-        super(builder);
-        this.backgroundColor = builder.backgroundColor;
-        this.iconBack = builder.iconBack;
-        this.title = builder.title;
-        this.titleColor = builder.titleColor;
-        this.titleSize = builder.titleSize;
+    @Override
+    public void fill(BaseBuilder builder) {
+        super.fill(builder);
+        if (builder instanceof Builder) {
+            this.backgroundColor = ((Builder) builder).backgroundColor;
+            this.iconBack = ((Builder) builder).iconBack;
+            this.title = ((Builder) builder).title;
+            this.titleColor = ((Builder) builder).titleColor;
+            this.titleSize = ((Builder) builder).titleSize;
+        }
     }
 
-    public static Builder newBarParam() {
+    public static Builder newBuilder() {
         return new Builder();
     }
 
-
-    public static final class Builder extends KeyUrlParam.Builder{
+    public static final class Builder extends KeyUrlParam.Builder {
         private int backgroundColor;
         private int iconBack;
         private String title;
         private int titleColor;
         private int titleSize;
 
-        private Builder() {
-        }
-
-        public BarParam build() {
-            return new BarParam(this);
+        @Override
+        public BarParam createParam() {
+            BarParam barParam = new BarParam();
+            barParam.fill(this);
+            return barParam;
         }
 
         public Builder backgroundColor(int backgroundColor) {
