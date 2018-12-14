@@ -12,10 +12,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        H5LoadManager.get().loadUrlWithCustomContainer("",1, MyBuilder.class)
-                .myKey();
-        H5LoadManager.get().loadH5(1,MyBuilder.class)
-                .myKey();
+        H5LoadManager.get().beginH5Load(MyBuilder.class)
+                .key()
+                .url()
+                .load();
+
+        H5LoadManager.get().getWebView();
+
+        H5LoadManager.get().beginH5Load(MyWebType.class)
 
 
 

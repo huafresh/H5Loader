@@ -1,5 +1,7 @@
 package com.hua.h5loader_core;
 
+import android.app.Activity;
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.android.thinkive.framework.WebViewManager;
@@ -12,7 +14,7 @@ import com.android.thinkive.framework.view.MyWebView;
  * @date 2018/12/13 9:09
  */
 
-class TkH5LoaderPool extends baseH5LoaderPool {
+class TkWebViewPool extends BaseWebViewPool {
     private static int maxSize = 5;
 
     static {
@@ -22,15 +24,19 @@ class TkH5LoaderPool extends baseH5LoaderPool {
         }
     }
 
-    TkH5LoaderPool() {
+    TkWebViewPool() {
         super(maxSize);
     }
 
     @Override
-    protected IWebView createH5Loader(String key) {
-        MyWebView webView = WebViewManager.getInstance().getWebView(key);
+    protected IWebView createWebView(Context context, String key) {
+        MyWebView webView = null;
+        if (context instanceof Activity) {
+            webView = WebViewManager.getInstance().getNewWebView(context);
+        } else {
+            webView = WebViewManager.getInstance().getWebView(key);
+        }
         return new TkWebView(webView);
     }
-
 
 }

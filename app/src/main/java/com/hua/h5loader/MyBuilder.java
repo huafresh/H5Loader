@@ -1,6 +1,6 @@
 package com.hua.h5loader;
 
-import com.hua.h5loader_core.H5LoadManager;
+import com.hua.h5loader_core.BaseBuilder;
 
 /**
  * @author hua
@@ -8,12 +8,12 @@ import com.hua.h5loader_core.H5LoadManager;
  * @date 2018/12/13 13:41
  */
 
-public class MyBuilder extends H5LoadManager.H5Builder {
-    MyBuilder(String url) {
-        super(url);
-    }
+public class MyBuilder extends BaseBuilder {
+    private String name;
 
-    public void myKey(){
+    public void name(){
 
     }
+
+
 }

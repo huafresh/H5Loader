@@ -1,5 +1,8 @@
 package com.hua.h5loader_core;
 
+import android.content.Context;
+import android.support.annotation.Nullable;
+
 /**
  * @author hua
  * @version 1.0
@@ -7,9 +10,7 @@ package com.hua.h5loader_core;
  */
 interface IWebViewPool {
 
-    IWebView get(String key);
+    IWebView get(@Nullable Context context, String key);
 
-    IWebView getNew(String key);
-
-    void release(IWebView loader);
+    void release(IWebView webView);
 }

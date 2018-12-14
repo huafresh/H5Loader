@@ -1,6 +1,8 @@
 package com.hua.h5loader_core;
 
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 
 import com.android.thinkive.framework.view.MyWebView;
 
@@ -9,10 +11,10 @@ import com.android.thinkive.framework.view.MyWebView;
  * @version 1.0
  * @date 2018/12/12
  */
-public class TkWebView implements IWebView {
+class TkWebView implements IWebView {
     private MyWebView myWebView;
 
-    public TkWebView(MyWebView myWebView) {
+    TkWebView(MyWebView myWebView) {
         this.myWebView = myWebView;
     }
 
@@ -28,6 +30,10 @@ public class TkWebView implements IWebView {
 
     @Override
     public void release() {
-
+        ViewParent parent = myWebView.getParent();
+        if (parent != null && parent instanceof ViewGroup) {
+            ((ViewGroup) parent).removeView(myWebView);
+        }
+        H5LoadManager.get().getWebViewPool().release(this);
     }
 }

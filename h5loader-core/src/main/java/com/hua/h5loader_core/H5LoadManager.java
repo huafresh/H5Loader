@@ -1,7 +1,8 @@
 package com.hua.h5loader_core;
 
-import android.text.TextUtils;
-import android.util.SparseArray;
+import android.content.Context;
+
+import java.util.HashMap;
 
 /**
  * @author hua
@@ -14,46 +15,83 @@ public class H5LoadManager {
     public static final int h5_ui_container_type_bar = 1;
     public static final int h5_ui_container_type_progress = 2;
     private IWebViewPool loaderPool;
-    private SparseArray<IWebContainer> webContainers;
+    private HashMap<Class, IWebPageType> webPageTypes;
 
     public static H5LoadManager get() {
         return Holder.S_INSTANCE;
     }
+
 
     private static final class Holder {
         private static final H5LoadManager S_INSTANCE = new H5LoadManager();
     }
 
     private H5LoadManager() {
-        loaderPool = new TkH5LoaderPool();
+        loaderPool = new TkWebViewPool();
         collectDefaultWebContainer();
     }
 
     private void collectDefaultWebContainer() {
-        webContainers = new SparseArray<>();
-        CommWebFragment.addWebContainer(webContainers);
+        webPageTypes = new HashMap<>();
+        CommWebFragment.addWebContainer(webPageTypes);
     }
 
     /**
-     * load h5 with specific webContainer type.
-     *
-     * @param type    webContainer type
-     * @param builder use for confirm T type
-     * @param <T>     the build type for webContainer
-     * @return H5Builder
+     * @param builderType 这里的builderType是{@link IWebPageType#newParamBuilder()}返回的对象的类型.
+     * @param <T>         builderType
+     * @return param builder
      */
     @SuppressWarnings("unchecked")
-    public <T extends H5Builder> T loadH5(int type, Class<T> builder) {
-        IWebContainer<T> iWebContainer = (IWebContainer<T>) webContainers.get(type);
-        return iWebContainer.paramBuilder();
+    public <T extends BaseBuilder> T beginH5Load(Class<T> builderType) {
+        IWebPageType webPageType = webPageTypes.get(builderType);
+        if (webPageType == null) {
+            throw new IllegalArgumentException("invalid " + builderType +
+                    ". call registerWebPageType() method first");
+        }
+
+        return (T) webPageType.newParamBuilder();
+    }
+
+    @SuppressWarnings("unchecked")
+    void load(Context context, BaseBuilder builder) {
+        IWebPageType webContainer = webPageTypes.get(builder.getClass());
+        if (webContainer != null) {
+            webContainer.load(context, builder.build());
+        }
+    }
+
+    /**
+     * 自定义页面类型
+     */
+    public void registerWebPageType(IWebPageType webPageType) {
+
     }
 
     IWebViewPool getWebViewPool() {
         return loaderPool;
     }
 
-    public static class H5Builder {
-
+    /**
+     * 使用applicationContext获取WebView对象。
+     *
+     * @param key the key
+     * @return IWebView
+     */
+    public IWebView getWebView(String key) {
+        return this.getWebView(null, key);
     }
 
+    /**
+     * 根据key获取一个WebView对象，H5LoaderManager不会保存这里返回的对象。
+     * <p>
+     * 当WebView不使用时，可调用{@link IWebView#release()}标记该对象可复用，此时
+     * H5LoaderManager会持久持有该对象。因此context传的是Activity时，建议不要调用。
+     *
+     * @param context Context
+     * @param key     the key
+     * @return IWebView
+     */
+    public IWebView getWebView(Context context, String key) {
+        return loaderPool.get(context, key);
+    }
 }

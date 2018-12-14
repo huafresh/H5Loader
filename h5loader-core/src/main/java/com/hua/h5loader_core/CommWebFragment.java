@@ -1,16 +1,20 @@
 package com.hua.h5loader_core;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
+import android.os.MessageQueue;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
+import java.util.HashMap;
 
 /**
  * @author hua
@@ -21,16 +25,15 @@ import android.widget.FrameLayout;
 public class CommWebFragment extends Fragment {
     protected static final String BUNDLE_KEY = "key";
     protected static final String BUNDLE_URL = "url";
-    protected IWebContainer<?> h5UIContainer;
-    private String key;
-    private String url;
+    protected String key;
+    protected String url;
     private FrameLayout frameLayout;
-    private IWebView webView;
+    protected IWebView webView;
 
-    public static CommWebFragment newInstance(String key, String url) {
+    public static CommWebFragment newInstance(KeyUrlParam param) {
         Bundle args = new Bundle();
-        args.putString(BUNDLE_KEY, key);
-        args.putString(BUNDLE_URL, url);
+        args.putString(BUNDLE_KEY, param.key);
+        args.putString(BUNDLE_URL, param.url);
         CommWebFragment fragment = new CommWebFragment();
         fragment.setArguments(args);
         return fragment;
@@ -51,13 +54,44 @@ public class CommWebFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_h5_comm, container, false);
-        frameLayout = rootView.findViewById(R.id.fl_web_container);
-        if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(key)) {
-            webView = H5LoadManager.get().getWebViewPool().get(key);
-            webView.loadUrl(url);
-            frameLayout.addView(webView.getWebView());
+        frameLayout = rootView.findViewById(R.id.fl_content_container);
+
+        if (!TextUtils.isEmpty(key)) {
+            webView = H5LoadManager.get().getWebView(key);
+        }
+
+        View contentView = createContentView(inflater, frameLayout);
+        if (contentView != null) {
+            frameLayout.addView(contentView);
         }
         return rootView;
+    }
+
+    protected @Nullable
+    View createContentView(LayoutInflater inflater, ViewGroup parent) {
+        return webView != null ? webView.getWebView() : null;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Looper.getMainLooper().getQueue().addIdleHandler(new MessageQueue.IdleHandler() {
+                @Override
+                public boolean queueIdle() {
+                    loadUrl();
+                    return false;
+                }
+            });
+        } else {
+            loadUrl();
+        }
+    }
+
+    private void loadUrl() {
+        if (webView != null && !TextUtils.isEmpty(url)) {
+            webView.loadUrl(url);
+        }
     }
 
     @Override
@@ -67,31 +101,21 @@ public class CommWebFragment extends Fragment {
         webView.release();
     }
 
-    static void addWebContainer(SparseArray<IWebContainer> output) {
-        CommWebContainer webContainer = new CommWebContainer();
-        output.put(webContainer.type(), webContainer);
+    static void addWebContainer(HashMap<Class, IWebPageType> output) {
+        CommWebPageType webContainer = new CommWebPageType();
+        output.put(webContainer.newParamBuilder().getClass(), webContainer);
     }
 
-    static class CommWebContainer implements IWebContainer<H5Builder> {
+    static class CommWebPageType implements IWebPageType<KeyUrlParam.Builder, KeyUrlParam> {
 
         @Override
-        public int type() {
-            return H5LoadManager.h5_ui_container_type_comm;
+        public KeyUrlParam.Builder newParamBuilder() {
+            return KeyUrlParam.newKeyParamBuilder();
         }
 
         @Override
-        public H5Builder paramBuilder() {
-            return null;
+        public void load(Context context, KeyUrlParam param) {
+            CommWebActivity.start(context, CommWebFragment.newInstance(param));
         }
-
-        @Override
-        public void load(H5Builder builder) {
-
-        }
-    }
-
-    static class CommWebParam {
-        String key;
-        String url;
     }
 }
