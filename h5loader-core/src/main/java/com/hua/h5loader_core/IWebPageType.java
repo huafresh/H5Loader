@@ -1,6 +1,11 @@
 package com.hua.h5loader_core;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * @author hua
@@ -14,7 +19,7 @@ public interface IWebPageType<B extends BaseBuilder, P> {
      * 比如带标题栏的页面需要传标题，等等。
      * 这里返回的就是这些参数的构造器。
      *
-     * @return 参数构造器。
+     * @return builder。
      */
     B newParamBuilder();
 
@@ -32,4 +37,17 @@ public interface IWebPageType<B extends BaseBuilder, P> {
      * @param param   current web page type specific param.
      */
     void load(Context context, P param);
+
+//    /**
+//     *
+//     * @param context
+//     * @param inflater
+//     * @param container
+//     * @param param
+//     * @return
+//     */
+//    View createContentView(Context context,
+//                           @NonNull LayoutInflater inflater,
+//                           @Nullable ViewGroup container,
+//                           P param);
 }
