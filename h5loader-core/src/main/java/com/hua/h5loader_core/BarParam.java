@@ -9,7 +9,7 @@ import android.support.annotation.DrawableRes;
  */
 
 public class BarParam extends KeyUrlParam {
-    public int backgroundColor;
+    public int toolbarBacColor;
     @DrawableRes
     public int iconBack;
     public String title;
@@ -20,7 +20,7 @@ public class BarParam extends KeyUrlParam {
     public void fill(BaseBuilder builder) {
         super.fill(builder);
         if (builder instanceof Builder) {
-            this.backgroundColor = ((Builder) builder).backgroundColor;
+            this.toolbarBacColor = ((Builder) builder).toolbarBacColor;
             this.iconBack = ((Builder) builder).iconBack;
             this.title = ((Builder) builder).title;
             this.titleColor = ((Builder) builder).titleColor;
@@ -33,7 +33,7 @@ public class BarParam extends KeyUrlParam {
     }
 
     public static final class Builder extends KeyUrlParam.Builder {
-        private int backgroundColor;
+        private int toolbarBacColor;
         private int iconBack;
         private String title;
         private int titleColor;
@@ -46,8 +46,8 @@ public class BarParam extends KeyUrlParam {
             return barParam;
         }
 
-        public Builder backgroundColor(int backgroundColor) {
-            this.backgroundColor = backgroundColor;
+        public Builder toolbarBacColor(int backgroundColor) {
+            this.toolbarBacColor = backgroundColor;
             return this;
         }
 

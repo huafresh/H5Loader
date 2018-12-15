@@ -22,7 +22,8 @@ public interface IWebPageType<B extends BaseBuilder, P> {
      * 当外界链式调用完毕最后调用load后，
      * H5LoaderManager会调用{@link BaseBuilder#createParam()}方法生成页面特定的参数对象.
      * 自定义页面需要使用这些参数把h5加载出来。
-     * 如果UI调整不是很大，可以参考H5LoaderManager提供的默认实现，如：{@link CommWebFragment.CommWebPageType}
+     * 如果UI调整不是很大，可以参考H5LoaderManager提供的默认实现，
+     * 如：{@link CommWebFragment.CommWebPageType}
      * <p>
      * 自定义的页面类型可以自己new webView对象，不过强烈建议使用{@link H5LoadManager#getWebView}
      * 获取IWebView对象，以便使用缓存功能。

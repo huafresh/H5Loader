@@ -2,7 +2,6 @@ package com.hua.h5loader_core;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -36,7 +35,7 @@ public class BarWebFragment extends CommWebFragment {
         Bundle args = new Bundle();
         args.putString(BUNDLE_KEY, param.key);
         args.putString(BUNDLE_URL, param.url);
-        args.putInt(KEY_BAC_COLOR, param.backgroundColor);
+        args.putInt(KEY_BAC_COLOR, param.toolbarBacColor);
         args.putInt(KEY_ICON_ID, param.iconBack);
         args.putString(KEY_TITLE, param.title);
         args.putInt(KEY_TITLE_COLOR, param.titleColor);
@@ -75,12 +74,12 @@ public class BarWebFragment extends CommWebFragment {
         return contentView;
     }
 
-    static void addWebPageType(HashMap<Class, IWebPageType> output) {
-        CommWebPageType webContainer = new CommWebPageType();
-        output.put(webContainer.newParamBuilder().getClass(), webContainer);
-    }
-
     static class BarWebPageType implements IWebPageType<BarParam.Builder, BarParam> {
+
+        static void add(HashMap<Class, IWebPageType> output) {
+            BarWebPageType pageType = new BarWebPageType();
+            output.put(pageType.newParamBuilder().getClass(), pageType);
+        }
 
         @Override
         public BarParam.Builder newParamBuilder() {
@@ -89,7 +88,7 @@ public class BarWebFragment extends CommWebFragment {
 
         @Override
         public void load(Context context, BarParam param) {
-            CommWebActivity.start(context, BarWebFragment.newInstance(param));
+            CommWebActivity.startFragment(context, BarWebFragment.newInstance(param));
         }
     }
 }

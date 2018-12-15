@@ -33,7 +33,8 @@ public class H5LoadManager {
 
     private void collectDefaultWebContainer() {
         webPageTypes = new HashMap<>();
-        CommWebFragment.addWebContainer(webPageTypes);
+        CommWebFragment.CommWebPageType.add(webPageTypes);
+        BarWebFragment.BarWebPageType.add(webPageTypes);
     }
 
     /**

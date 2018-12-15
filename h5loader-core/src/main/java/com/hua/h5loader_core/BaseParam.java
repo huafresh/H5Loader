@@ -8,6 +8,12 @@ package com.hua.h5loader_core;
 
 public abstract class BaseParam {
 
+    /**
+     * builder创建参数时会调用此方法填充参数对象。
+     * 这里传入的是BaseBuilder，因此实现需要强转为自身的builder对象。
+     *
+     * @param builder the builder
+     */
     public abstract void fill(BaseBuilder builder);
 
 }

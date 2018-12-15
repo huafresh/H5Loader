@@ -101,12 +101,12 @@ public class CommWebFragment extends Fragment {
         webView.release();
     }
 
-    static void addWebContainer(HashMap<Class, IWebPageType> output) {
-        CommWebPageType webContainer = new CommWebPageType();
-        output.put(webContainer.newParamBuilder().getClass(), webContainer);
-    }
-
     static class CommWebPageType implements IWebPageType<KeyUrlParam.Builder, KeyUrlParam> {
+
+        static void add(HashMap<Class, IWebPageType> output) {
+            CommWebPageType webPageType = new CommWebPageType();
+            output.put(webPageType.newParamBuilder().getClass(), webPageType);
+        }
 
         @Override
         public KeyUrlParam.Builder newParamBuilder() {
@@ -115,7 +115,7 @@ public class CommWebFragment extends Fragment {
 
         @Override
         public void load(Context context, KeyUrlParam param) {
-            CommWebActivity.start(context, CommWebFragment.newInstance(param));
+            CommWebActivity.startFragment(context, CommWebFragment.newInstance(param));
         }
     }
 }

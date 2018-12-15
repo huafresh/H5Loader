@@ -23,7 +23,7 @@ public class CommWebActivity extends AppCompatActivity {
     public static final String FRAGMENT_TAG_COMM_WEB = "fragment_tag_comm_web";
     static ArrayDeque<Fragment> pendingFragment = new ArrayDeque<>();
 
-    public static void start(Context context, Fragment fragment) {
+    public static void startFragment(Context context, Fragment fragment) {
         pendingFragment.addLast(fragment);
 
         Intent intent = new Intent(context, CommWebActivity.class);
