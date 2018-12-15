@@ -15,20 +15,24 @@ public class MainActivity extends AppCompatActivity {
         String url = "http://www.baidu.com";
 
         //使用H5LoaderManager默认提供的页面类型加载h5
+        //打开h5不带标题
         H5LoadManager.get().openCommWeb()
                 .url(url)
                 //传key则可能会对webView做缓存
+                //之所以说可能是因为缓存是页面类型实现者控制的，
+                //默认实现是有缓存的。
                 .key("baidu")
                 .start(this);
 
-        //打开带标题栏样式的
+        //打开带标题
         H5LoadManager.get().openBarWeb()
                 .toolbarBacColor(getResources().getColor(R.color.colorPrimary))
                 .title("h5标题")
+                .titleColor(getResources().getColor(android.R.color.white))
                 .start(this);
 
         //打开自定义样式的
-        //先要注册
+        //先要注册（全局调用一次即可）
         H5LoadManager.get().registerWebPageType(new ProgressWebPage());
         H5LoadManager.get().beginBuildParam(ProgressWebPage.WEB_TYPE_PROGRESS, ProgressParam.Builder.class)
                 //这里可以链式调用设置自定义参数
