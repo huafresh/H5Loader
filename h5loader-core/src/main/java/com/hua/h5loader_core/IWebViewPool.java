@@ -3,6 +3,8 @@ package com.hua.h5loader_core;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
+import com.android.thinkive.framework.view.MyWebView;
+
 /**
  * @author hua
  * @version 1.0
@@ -10,7 +12,7 @@ import android.support.annotation.Nullable;
  */
 interface IWebViewPool {
 
-    IWebView get(@Nullable Context context, String key);
+    TkWebView get(@Nullable Context context, String key);
 
-    void release(IWebView webView);
+    void release(TkWebView webView);
 }

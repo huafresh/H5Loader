@@ -1,5 +1,6 @@
 package com.hua.h5loader_core;
 
+import android.os.Parcel;
 import android.text.TextUtils;
 
 /**
@@ -9,11 +10,19 @@ import android.text.TextUtils;
  */
 
 public class KeyUrlParam extends BaseParam{
-    public String url;
-    public String key;
+    private String url;
+    private String key;
 
     public static Builder newBuilder(){
         return new Builder();
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getKey() {
+        return key;
     }
 
     @Override
@@ -29,7 +38,7 @@ public class KeyUrlParam extends BaseParam{
         private String key;
 
         @Override
-        public Object createParam() {
+        public BaseParam createParam() {
             KeyUrlParam keyUrlParam = new KeyUrlParam();
             keyUrlParam.fill(this);
             return keyUrlParam;
@@ -46,4 +55,35 @@ public class KeyUrlParam extends BaseParam{
         }
 
     }
+
+    public KeyUrlParam() {
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.url);
+        dest.writeString(this.key);
+    }
+
+    protected KeyUrlParam(Parcel in) {
+        this.url = in.readString();
+        this.key = in.readString();
+    }
+
+    public static final Creator<KeyUrlParam> CREATOR = new Creator<KeyUrlParam>() {
+        @Override
+        public KeyUrlParam createFromParcel(Parcel source) {
+            return new KeyUrlParam(source);
+        }
+
+        @Override
+        public KeyUrlParam[] newArray(int size) {
+            return new KeyUrlParam[size];
+        }
+    };
 }

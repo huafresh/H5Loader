@@ -12,16 +12,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        H5LoadManager.get().beginH5Load(MyBuilder.class)
-                .key()
-                .url()
-                .load();
+        String url = "http://www.baidu.com";
 
-        H5LoadManager.get().getWebView();
+        //使用H5LoaderManager默认提供的页面类型加载h5
+        H5LoadManager.get().openCommWeb()
+                .url(url)
+                //传key则可能会对webView做缓存
+                .key("baidu")
+                .start(this);
 
-        H5LoadManager.get().beginH5Load(MyWebType.class)
+        //打开带标题栏样式的
+        H5LoadManager.get().openBarWeb()
+                .toolbarBacColor(getResources().getColor(R.color.colorPrimary))
+                .title("h5标题")
+                .start(this);
 
-
+        //打开自定义样式的
+        //先要注册
+        H5LoadManager.get().registerWebPageType(new ProgressWebPage());
+        H5LoadManager.get().beginBuildParam(ProgressWebPage.WEB_TYPE_PROGRESS, ProgressParam.Builder.class)
+                //这里可以链式调用设置自定义参数
+                .progressType(1)
+                .start(this);
 
     }
 }

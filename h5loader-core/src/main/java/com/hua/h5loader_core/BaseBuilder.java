@@ -9,8 +9,10 @@ import android.content.Context;
  */
 
 public abstract class BaseBuilder {
-    public final void load(Context context) {
-        H5LoadManager.get().load(context, this);
+    int webType;
+
+    public final void start(Context context) {
+        H5LoadManager.get().load(context, createParam());
     }
 
     /**
@@ -22,5 +24,5 @@ public abstract class BaseBuilder {
      *
      * @return 参数对象。
      */
-    public abstract Object createParam();
+    public abstract BaseParam createParam();
 }
