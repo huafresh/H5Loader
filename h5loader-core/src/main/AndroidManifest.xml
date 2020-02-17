@@ -1,2 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.hua.h5loader_core"/>
+          package="com.hua.h5loader_core">
+    <application>
+        <activity android:name=".CommWebActivity"/>
+    </application>
+</manifest>

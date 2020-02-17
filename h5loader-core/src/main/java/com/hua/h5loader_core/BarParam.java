@@ -1,7 +1,7 @@
 package com.hua.h5loader_core;
 
 import android.os.Parcel;
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 
 /**
  * @author hua

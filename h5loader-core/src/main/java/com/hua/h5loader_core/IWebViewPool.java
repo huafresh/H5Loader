@@ -1,9 +1,7 @@
 package com.hua.h5loader_core;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
-
-import com.android.thinkive.framework.view.MyWebView;
+import androidx.annotation.Nullable;
 
 /**
  * @author hua

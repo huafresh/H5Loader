@@ -1,16 +1,13 @@
 package com.hua.h5loader;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hua.h5loader_core.BarParam;
-import com.hua.h5loader_core.BaseBuilder;
 import com.hua.h5loader_core.BaseWebPage;
-import com.hua.h5loader_core.H5LoadManager;
 
 /**
  * @author hua

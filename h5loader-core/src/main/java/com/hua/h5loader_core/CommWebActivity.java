@@ -4,14 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-
-import java.util.ArrayDeque;
 
 /**
  * @author hua
@@ -45,8 +42,8 @@ public class CommWebActivity extends AppCompatActivity implements IWebHost {
         if (extras != null) {
             BaseParam param = extras.getParcelable(KEY_PARAM);
             if (param != null) {
-                webPageType.onAttachToHost(this);
                 webPageType = H5LoadManager.get().getWebPageTypeById(param.getWebType());
+                webPageType.onAttachToHost(this);
                 View contentView = webPageType.onCreateView(this,
                         LayoutInflater.from(this), container, param);
                 container.addView(contentView,

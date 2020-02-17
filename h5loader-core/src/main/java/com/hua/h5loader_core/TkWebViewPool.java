@@ -21,10 +21,11 @@ class TkWebViewPool implements IWebViewPool {
     private LruCache<String, TkWebView> releasedCache;
 
     static {
-        String count = ConfigManager.getInstance().getSystemConfigValue("webviewCount");
-        if (!TextUtils.isEmpty(count)) {
-            maxSize = Integer.valueOf(count);
-        }
+        //String count = ConfigManager.getInstance().getSystemConfigValue("webviewCount");
+//
+//        if (!TextUtils.isEmpty(count)) {
+//            maxSize = Integer.valueOf(count);
+//        }
     }
 
     TkWebViewPool() {
